@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<link rel="stylesheet" type="text/css" href="../css/global.css" th:href="@{/css/global.css}" />
+	<title>Login page</title>
+</head>
+
+<body>
+	<div class="div-title">
+		<h1>Welcome to our Image Taxonomy website!</h1>
+	</div>
+	
+	<div class="form-div div-colored">
+		<div class="form-title">Insert your email and password to Login</div>
+		<form class="form" method="POST" th:action="@{/Login}">
+			<div class="form-entry">
+				<label for="email">Email</label>
+				<input type="email" placeholder="Enter your email" name="email" required>
+			</div>
+			<div class="form-entry">
+				<label for="password">Password</label>
+				<input type="password" placeholder="Enter your password" name="password" required>
+			</div>
+			<button class="btn btn-large btn-colored" type="submit">Login</button>
+		</form>
+		<div class="warning-message" th:if="${loginWarningMsg}">
+			<span th:text="${loginWarningMsg}">Email or password not valid!</span>
+		</div>
+	</div>
+
+	<div class="form-div div-colored">
+		<div class="form-title">Insert your information to Sign Up</div>
+		<form class="form" method="POST" th:action="@{/Register}">
+			<div class="form-entry">
+				<label for="name">Name</label>
+				<input type="text" placeholder="Enter your name" name="name" required>
+			</div>
+			<div class="form-entry">
+				<label for="name">Email</label>
+				<input type="email" placeholder="Enter your email" name="email" required>
+			</div>
+			<div class="form-entry">
+				<label for="password">Password</label>
+				<input type="password" placeholder="Enter your desired password" name="password" required><br>
+			</div>
+			<button class="btn btn-large btn-colored" type="submit">Register</button>
+		</form>
+		<div class="warning-message" th:if="${registerWarningMsg}">
+			<span th:text="${registerWarningMsg}">Data not valid!</span>
+		</div>
+	</div>
+</body>
+</html>

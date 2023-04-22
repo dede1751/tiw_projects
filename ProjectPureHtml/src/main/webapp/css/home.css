@@ -1,0 +1,38 @@
+.home-div{
+    padding: 0 2rem 2rem 2rem;
+    margin: 0 auto;
+    position: relative;
+}
+/*
+    Tree divs
+*/
+.tree-title{
+	text-align: center;
+	font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+.node{
+    margin: 0 auto;
+    position: relative;
+    min-height: 30px;
+}
+.node + .node{
+    margin-top: 30px;
+    margin-bottom:30px;
+}
+.node-content{
+	width: fit-content;
+	padding:0.8rem;
+	border: 1px solid #17a2b8;
+	border-radius: 10px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    display: inline;
+}
+.even{
+    background-color: rgb(111, 66, 193, 0.05);
+}
+.highlighted{
+	color: rgb(165, 29, 45);
+}

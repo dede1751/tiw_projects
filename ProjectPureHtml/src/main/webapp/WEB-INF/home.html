@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<link rel="stylesheet" type="text/css" href="../css/global.css" th:href="@{/css/global.css}" />
+	<link rel="stylesheet" type="text/css" href="../css/home.css" th:href="@{/css/home.css}" />
+	<title>Home Page</title>
+</head>
+
+<body>
+	<div th:replace="/WEB-INF/header :: header"></div>
+	<div class="div-title">
+		<h1>Welcome to the home page, <i><span th:text="${session.user.name}">Name</span></i><br></h1>
+	</div>
+	
+	<div class="home-div">
+	
+		<div class="form-div div-colored">
+			<div class="form-title">Add a new Category to the taxonomy!</div>
+			<form class="form" method="POST" th:action="@{/CreateCategory}">
+				<div class="form-entry">
+					<label for="name">Category Name</label>
+					<input type="text" placeholder="Enter a name for the category" name="name" required>
+				</div>
+				<div class="form-entry">
+					<label for="parentID">Parents's ID</label>
+					<input type="number" placeholder="Enter the parent's ID" name="parentID" required>
+				</div>
+				<button class="btn btn-large btn-colored" type="submit">Create</button>
+			</form>
+			<div class="warning-message" th:if="${createWarningMsg}">
+				<span th:text="${createWarningMsg}">Category not valid!</span>
+			</div>
+		</div>
+		
+		<div class="div-colored">
+			<div class="tree-title">Here is the full taxonomy tree:
+				<div class="warning-message" th:if="${copyWarningMsg}">
+					<span th:text="${copyWarningMsg}">Copy not valid!</span>
+				</div>
+			</div>
+			
+			<div class="node" th:each="category : ${tree}" th:style="'left: ' + ${category.generation * 3} + 'rem'">
+				<div class="node-content" th:classappend="${category.generation % 2 == 0} ? 'even'">
+					<span th:text="${category.id} + ' - ' + ${category.name}" th:classappend="${category.highlighted} ? 'highlighted'">1 - Materiali Solidi</span>
+					
+					<a th:if="${category.id != 0 and copyRootID == null}" class="btn btn-colored btn-small" th:href="@{/GoToHome(copyRootID=${category.id})}">>> Copy</a>
+					<a th:if="${not category.highlighted and copyRootID != null and category.childCount &lt; 9}" class="btn btn-colored btn-small" th:href="@{/CopyCategory(copySrc=${copyRootID}, copyTgt=${category.id})}">>> Copy Here!</a>
+					<a th:if="${copyRootID != null and category.id == copyRootID}" class="btn btn-colored btn-small" th:href="@{/GoToHome}">>> Cancel Copy</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
