@@ -54,6 +54,14 @@ public class Register extends DBTemplateHttpServlet {
 			return;
 		}
 		
+		// Warning for values that are too long
+		if (name.length() > 45 || email.length() > 45 || password.length() > 45) {
+			HttpSession session = request.getSession();
+			session.setAttribute("registerWarningMsg", "Register input is too long!");
+			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToLoginPage);
+			return;
+		}
+		
 		// Render a warning if the email already exists in the DB
 		UserDAO userDAO = new UserDAO(connection);
 		User user = null;

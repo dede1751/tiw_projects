@@ -1,33 +1,31 @@
 .home-div{
-    padding: 0 2rem 2rem 2rem;
+    padding: 0 2em 2em 2em;
     margin: 0 auto;
     position: relative;
 }
+
 /*
     Tree divs
 */
 .tree-title{
 	text-align: center;
-	font-size: 2rem;
-    font-weight: 500;
-    margin-bottom: 1rem;
+	font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 1em;
 }
 .node{
-    margin: 0 auto;
-    position: relative;
-    min-height: 30px;
-}
-.node + .node{
-    margin-top: 30px;
-    margin-bottom:30px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.4em;
 }
 .node-content{
 	width: fit-content;
-	padding:0.8rem;
+	padding:0.8em;
 	border: 1px solid #17a2b8;
 	border-radius: 10px;
-    font-weight: 600;
-    font-size: 1.2rem;
+	box-shadow: 0 1em 3em rgba(0,0,0,0.175);
+    font-weight: bold;
+    font-size: 1.2em;
     display: inline;
 }
 .even{

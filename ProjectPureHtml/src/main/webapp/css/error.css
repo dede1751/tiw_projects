@@ -1,27 +1,28 @@
 .error-div{
 	max-width: 25%;
     margin: 0 auto;
-    margin-top: 20rem;
+    margin-top: 20em;
     background-color: rgb(242, 242, 242); 
     border-color: rgb(231, 74, 59);
     border-radius: 20px;
     border-style: solid;
-    box-shadow: 0 1rem 3rem rgba(0,0,0,0.175);
-    padding: 1rem;
+    box-shadow: 0 1em 3em rgba(0,0,0,0.175);
+    padding: 1em;
     text-align: center;
 }
 .error-title{
-    font-size: 2rem;
+    font-size: 2em;
     font-weight: 500;
     color: rgb(231, 74, 59);
-    margin-bottom: 1rem;
+    margin-bottom: 1em;
 }
 .error-reason{
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
+    font-size: 1.2em;
+    margin-bottom: 1em;
 }
 .btn-error{
-	margin-bottom: 1rem;
+	border-radius: 5px;
+    border-style: solid;
     color: rgb(0, 0, 0);
     background-color: rgb(255, 255, 255);
     border-color: rgb(231, 74, 59);

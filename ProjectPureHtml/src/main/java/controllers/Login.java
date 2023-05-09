@@ -51,6 +51,14 @@ public class Login extends DBTemplateHttpServlet {
 			renderError(request, response, "Login fields empty!");
 			return;
 		}
+		
+		// Warning for names that are too long
+		if (email.length() > 45 || password.length() > 45) {
+			HttpSession session = request.getSession();
+			session.setAttribute("loginWarningMsg", "Login input is too long!");
+			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToLoginPage);
+			return;
+		}
 			
 		// Attempt login
 		UserDAO userDAO = new UserDAO(connection);

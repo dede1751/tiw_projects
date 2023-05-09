@@ -7,22 +7,23 @@
 </head>
 
 <body>
+	
 	<div class="div-title">
 		<h1>Welcome to our Image Taxonomy website!</h1>
 	</div>
 	
 	<div class="form-div div-colored">
 		<div class="form-title">Insert your email and password to Login</div>
-		<form class="form" method="POST" th:action="@{/Login}">
+		<form class="form-container" method="POST" th:action="@{/Login}">
 			<div class="form-entry">
 				<label for="email">Email</label>
-				<input type="email" placeholder="Enter your email" name="email" required>
+				<input type="email" placeholder="Enter your email" name="email" maxlength="45" required>
 			</div>
 			<div class="form-entry">
 				<label for="password">Password</label>
-				<input type="password" placeholder="Enter your password" name="password" required>
+				<input type="password" placeholder="Enter your password" name="password" maxlength="45" required>
 			</div>
-			<button class="btn btn-large btn-colored" type="submit">Login</button>
+			<button class="btn btn-large btn-colored-solid" type="submit">Login</button>
 		</form>
 		<div class="warning-message" th:if="${loginWarningMsg}">
 			<span th:text="${loginWarningMsg}">Email or password not valid!</span>
@@ -31,24 +32,25 @@
 
 	<div class="form-div div-colored">
 		<div class="form-title">Insert your information to Sign Up</div>
-		<form class="form" method="POST" th:action="@{/Register}">
+		<form class="form-container" method="POST" th:action="@{/Register}">
 			<div class="form-entry">
 				<label for="name">Name</label>
-				<input type="text" placeholder="Enter your name" name="name" required>
+				<input type="text" placeholder="Enter your name" name="name" maxlength="45" required>
 			</div>
 			<div class="form-entry">
 				<label for="name">Email</label>
-				<input type="email" placeholder="Enter your email" name="email" required>
+				<input type="email" placeholder="Enter your email" name="email" maxlength="45" required>
 			</div>
 			<div class="form-entry">
 				<label for="password">Password</label>
-				<input type="password" placeholder="Enter your desired password" name="password" required><br>
+				<input type="password" placeholder="Enter your desired password" name="password" maxlength="45" required><br>
 			</div>
-			<button class="btn btn-large btn-colored" type="submit">Register</button>
+			<button class="btn btn-large btn-colored-solid" type="submit">Register</button>
 		</form>
 		<div class="warning-message" th:if="${registerWarningMsg}">
 			<span th:text="${registerWarningMsg}">Data not valid!</span>
 		</div>
 	</div>
+
 </body>
 </html>

@@ -8,12 +8,12 @@
 
 <body>
 	<div th:fragment="header" th:if="${session.user}">
-		<div class="header-div">
+		<div class="header-div div-colored">
 			<div class="header-title">You are logged as:</div>
 			<hr>
 			<div class="header-content">
-				User: <b><span th:text="${session.user.name}">Name</span></b><br>
-				ID: <b><span th:text="${session.user.id}">0000</span></b>
+				<span> User: <b><span th:text="${session.user.name}">Name</span></b><br> </span>
+				<span> ID: <b><span th:text="${session.user.id}">0000</span></b> </span>
 			</div>
 			<a class="btn btn-medium btn-colored-inverted" th:href="@{/Logout}">Log out</a>
 		</div>

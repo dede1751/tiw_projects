@@ -17,16 +17,16 @@
 	
 		<div class="form-div div-colored">
 			<div class="form-title">Add a new Category to the taxonomy!</div>
-			<form class="form" method="POST" th:action="@{/CreateCategory}">
+			<form class="form-container" method="POST" th:action="@{/CreateCategory}">
 				<div class="form-entry">
 					<label for="name">Category Name</label>
-					<input type="text" placeholder="Enter a name for the category" name="name" required>
+					<input type="text" placeholder="Enter a name for the category" name="name" maxlength="45" required>
 				</div>
 				<div class="form-entry">
-					<label for="parentID">Parents's ID</label>
+					<label for="parentID">Parent's ID</label>
 					<input type="number" placeholder="Enter the parent's ID" name="parentID" required>
 				</div>
-				<button class="btn btn-large btn-colored" type="submit">Create</button>
+				<button class="btn btn-large btn-colored-solid" type="submit">Create</button>
 			</form>
 			<div class="warning-message" th:if="${createWarningMsg}">
 				<span th:text="${createWarningMsg}">Category not valid!</span>
@@ -40,16 +40,17 @@
 				</div>
 			</div>
 			
-			<div class="node" th:each="category : ${tree}" th:style="'left: ' + ${category.generation * 3} + 'rem'">
+			<div class="node" th:each="category : ${tree}" th:style="'margin-left: ' + ${category.generation * 4} + 'em'">
 				<div class="node-content" th:classappend="${category.generation % 2 == 0} ? 'even'">
 					<span th:text="${category.id} + ' - ' + ${category.name}" th:classappend="${category.highlighted} ? 'highlighted'">1 - Materiali Solidi</span>
 					
-					<a th:if="${category.id != 0 and copyRootID == null}" class="btn btn-colored btn-small" th:href="@{/GoToHome(copyRootID=${category.id})}">>> Copy</a>
-					<a th:if="${not category.highlighted and copyRootID != null and category.childCount &lt; 9}" class="btn btn-colored btn-small" th:href="@{/CopyCategory(copySrc=${copyRootID}, copyTgt=${category.id})}">>> Copy Here!</a>
-					<a th:if="${copyRootID != null and category.id == copyRootID}" class="btn btn-colored btn-small" th:href="@{/GoToHome}">>> Cancel Copy</a>
+					<a th:if="${category.id != 0 and copyRootID == null}" class="btn btn-small btn-colored-solid" th:href="@{/GoToHome(copyRootID=${category.id})}">>> Copy</a>
+					<a th:if="${not category.highlighted and copyRootID != null and category.childCount &lt; 9}" class="btn btn-small btn-colored-solid" th:href="@{/CopyCategory(copySrc=${copyRootID}, copyTgt=${category.id})}">>> Copy Here!</a>
+					<a th:if="${copyRootID != null and category.id == copyRootID}" class="btn btn-small btn-colored-solid" th:href="@{/GoToHome}">>> Cancel Copy</a>
 				</div>
 			</div>
 		</div>
 	</div>
+
 </body>
 </html>

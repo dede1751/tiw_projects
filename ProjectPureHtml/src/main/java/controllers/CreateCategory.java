@@ -53,7 +53,7 @@ public class CreateCategory extends DBTemplateHttpServlet {
 		}
 		
 		// Warning for names that are too long
-		if (name.length() >= 45) {
+		if (name.length() > 45) {
 			HttpSession session = request.getSession();
 			session.setAttribute("createWarningMsg", "Please choose a shorter name!");
 			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToHomeServlet);
