@@ -14,8 +14,8 @@ body{
     min-height: 100vh;
     color: rgb(33, 37, 41);
 	background-image: url("../images/satellite.jpg");
-    backdrop-filter: blur(1px);
-    background-repeat: no-repeat;
+    backdrop-filter: blur(3px);
+    background-repeat: repeat;
     margin: 0px;
 }
 /*
@@ -28,7 +28,7 @@ body{
 	min-width: 200px; 
     text-align: center; 
     padding: 0.5em;
-    z-index: 100; /* for some reason it stays behind everything else otherwise */
+    z-index: 100; /* keep it in front of other components */
 }
 .header-title{
 	font-size: 1.2em;

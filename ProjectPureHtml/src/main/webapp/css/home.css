@@ -21,7 +21,7 @@
 .node-content{
 	width: fit-content;
 	padding:0.8em;
-	border: 1px solid #17a2b8;
+	border: 1px solid rgb(61, 56, 70);
 	border-radius: 10px;
 	box-shadow: 0 1em 3em rgba(0,0,0,0.175);
     font-weight: bold;
