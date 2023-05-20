@@ -12,7 +12,7 @@
   </context-param>
   <context-param>
     <param-name>dbPassword</param-name>
-    <param-value>khazad-dum</param-value>
+    <param-value>pwd</param-value>
   </context-param>
   <context-param>
     <param-name>dbDriver</param-name>
