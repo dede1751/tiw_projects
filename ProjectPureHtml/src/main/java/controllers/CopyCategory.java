@@ -8,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import dao.CategoryDAO;
 import utils.DBTemplateHttpServlet;
@@ -84,9 +83,9 @@ public class CopyCategory extends DBTemplateHttpServlet {
 			return;
 		}
 		
-		HttpSession session = request.getSession();
-		session.setAttribute("insertionID", Integer.toString(insertionID));
-		response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToHomeServlet);
+		// Redirect to home servlet with insertionID parameter
+		String insertionQuery = "?insertionID=" + Integer.toString(insertionID); // won't raise exceptions
+		response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToHomeServlet + insertionQuery);
 	}
 
 	/**

@@ -8,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import utils.DBTemplateHttpServlet;
 import utils.PathUtils;
@@ -54,9 +53,8 @@ public class CreateCategory extends DBTemplateHttpServlet {
 		
 		// Warning for names that are too long
 		if (name.length() > 45) {
-			HttpSession session = request.getSession();
-			session.setAttribute("createWarningMsg", "Please choose a shorter name!");
-			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToHomeServlet);
+			String warningMsgQuery = "?createWarningMsg=0";
+			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToHomeServlet + warningMsgQuery);
 			return;
 		}
 		
@@ -81,14 +79,12 @@ public class CreateCategory extends DBTemplateHttpServlet {
 		// The warning message must be saved to the session since a forward would leave us on this servlet,
 		// and a redirect would lose the message.
 		if ( childCount == -1 ) {
-			HttpSession session = request.getSession();
-			session.setAttribute("createWarningMsg", "Chosen parent ID does not exist!");
-			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToHomeServlet);
+			String warningMsgQuery = "?createWarningMsg=1";
+			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToHomeServlet + warningMsgQuery);
 			return;
 		} else if ( childCount >= 9 ) {
-			HttpSession session = request.getSession();
-			session.setAttribute("createWarningMsg", "Chosen parent has too many children!");
-			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToHomeServlet);
+			String warningMsgQuery = "?createWarningMsg=2";
+			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToHomeServlet + warningMsgQuery);
 			return;
 		}
 		
@@ -102,6 +98,18 @@ public class CreateCategory extends DBTemplateHttpServlet {
 		}
 		
 		response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToHomeServlet);	
+	}
+	
+	/// Convert integer warning message code to actual message (slims down the url)
+	public static String getWarningMessage(String id) {
+		String message = switch ( id ) {
+			case "0" -> "Please choose a shorter name!";
+			case "1" -> "Chosen parent ID does not exist!";
+			case "2" -> "Chosen parent has too many children!";
+			default -> "";
+		};
+		
+		return message;
 	}
 
 }

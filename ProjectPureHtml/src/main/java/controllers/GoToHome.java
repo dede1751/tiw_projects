@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import beans.Category;
 import dao.CategoryDAO;
@@ -38,18 +37,10 @@ public class GoToHome extends DBTemplateHttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// Recover CreateCategory warning message from session if present
-		// Recover CopyCategory copy root node if present
-		// Handled here to avoid leaking the messages to the session
-		HttpSession session = request.getSession();
-		String warning = (String) session.getAttribute("createWarningMsg");
-		String insertionID = (String) session.getAttribute("insertionID");
+		// Convert create warning message query to request attribute.
+		String warning = request.getParameter("createWarningMsg");
 		if ( warning != null ) {
-			request.setAttribute("createWarningMsg", warning);
-			session.removeAttribute("createWarningMsg");
-		}
-		if ( insertionID != null ) {
-			session.removeAttribute("insertionID");
+			request.setAttribute("createWarningMsg", CreateCategory.getWarningMessage(warning));
 		}
 		
 		// Fetch the taxonomy from the DB
@@ -78,7 +69,7 @@ public class GoToHome extends DBTemplateHttpServlet {
 			try {
 				int childCount = categoryDAO.getChildCount(rootID);
 				if ( childCount == -1 ) {
-					renderError(request, response, "Copy ID must belong to a taxonomy in the tree!");
+					renderError(request, response, "The copied category must belong to a taxonomy in the tree!");
 					return;
 				}
 			} catch (SQLException e) {
@@ -98,8 +89,31 @@ public class GoToHome extends DBTemplateHttpServlet {
 			request.setAttribute("copyRootID", copyRootID);
 		}
 		
-		// Handle final step of copy
+		// Handle final step of copy (same as copyRootID, without saving anything to the request)
+		String insertionID = request.getParameter("insertionID");
 		if (insertionID != null) {
+			int insertID;
+			
+			// Error on non-numeric values for insertion id
+			try {
+				insertID = Integer.parseInt(insertionID);
+			} catch (NumberFormatException e) {
+				renderError(request, response, "Insertion ID must be a number!");
+				return;
+			}
+			
+			// Error on values not in tree
+			try {
+				int childCount = categoryDAO.getChildCount(insertID);
+				if ( childCount == -1 ) {
+					renderError(request, response, "The insertion category must belong to a taxonomy in the tree!");
+					return;
+				}
+			} catch (SQLException e) {
+				renderError(request, response, e.getMessage());
+				return;
+			}
+			
 			// Highlight the whole subtree after it's been copied
 			for (Category cat: tree) {
 				if (Integer.toString(cat.getId()).startsWith(insertionID)) {
