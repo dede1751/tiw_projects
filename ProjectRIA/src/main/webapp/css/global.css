@@ -1,0 +1,188 @@
+/*
+    Fonts
+*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+/*
+    Root
+*/
+body{
+	padding: 1em 0;
+    font-family: Roboto;
+    font-size: 1em;
+    font-weight: normal;
+    line-height: 1.5;
+    min-height: 100vh;
+    color: rgb(33, 37, 41);
+	background-image: url("../images/satellite.jpg");
+    backdrop-filter: blur(3px);
+    background-repeat: repeat;
+    margin: 0px;
+}
+/*
+    Header
+*/
+.header-div{
+	position: absolute;
+	top: 2em;
+	right: 2em;
+	min-width: 200px; 
+    text-align: center; 
+    padding: 0.5em;
+    z-index: 100; /* keep it in front of other components */
+}
+.header-title{
+	font-size: 1.2em;
+	font-weight: bold;
+}
+.header-content{
+    line-height: 1.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 0.5em;
+}
+
+/*
+    Standard elements
+*/
+a {
+    color: rgb(98, 160, 234);
+    cursor: pointer;
+    text-decoration: none;
+}
+hr{
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+h1{
+	font-size: 2em;
+    font-weight: bold;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+/*
+    Colored divs
+*/
+.div-title{
+	max-width: 40%;
+    margin: 0 auto;
+    margin-bottom: 1em;
+    background-color: rgb(242, 242, 242); 
+    border-radius: 20px;
+    box-shadow: 0 1em 3em rgba(0,0,0,0.175);
+}
+.div-colored{
+    margin: 0 auto;
+    margin-bottom: 2em;
+    background-color: rgb(242, 242, 242); 
+    border: 5px solid rgb(61, 56, 70);
+    border-radius: 20px;
+    box-shadow: 0 1em 3em rgba(0,0,0,0.175);
+    padding: 1em;
+}
+
+/*
+    Buttons
+*/
+.btn{
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.btn-large{
+    padding: .8em 2em;
+    font-weight: bold;
+    font-size: 1em;
+}
+.btn-medium{
+    padding: .25em 1em;
+    font-weight: bold;
+    font-size: 1em;
+}
+.btn-small{
+    padding: .25em 1em;
+    font-weight: bold;
+    font-size: 0.8em;
+}
+.btn-colored-solid{
+	border-radius: 5px;
+    border-style: solid;
+    color: rgb(255, 255, 255);
+    background-color: rgb(26, 95, 180);
+    border-color: rgb(26, 95, 180);
+}
+.btn-colored-solid:hover{
+    border-color: rgb(153, 193, 241);
+}
+.btn-colored-inverted{
+	border-radius: 5px;
+    border-style: solid;
+    color:rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(26, 95, 180);
+}
+.btn-colored-inverted:hover{
+    color:rgb(255, 255, 255);
+    background-color: rgb(26, 95, 180);
+}
+/*
+    Forms
+*/
+.form-div{
+	text-align: center;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.form-title{
+	text-align: center;
+    font-size: 1.3em;
+    line-height: 2em;
+    margin-bottom: 1em;
+}
+.form-container{
+    margin-bottom: 1em;
+    width: 100%;
+}
+.form-entry {
+	margin-bottom: 1em;
+	display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.form-entry > label {
+    padding: 0.5em;
+    border-radius: 5px 0 0 5px;
+    color: rgb(73, 80, 87);
+    text-align: center;
+    white-space: nowrap;
+    background-color: rgb(233, 236, 239);
+    border: 1px solid rgb(206, 212, 218);
+    border-right: 0;
+    font-weight: bold;
+    font-size: 1em;
+    width: 15%;
+}
+.form-entry > input, .form-entry > select {
+    padding: 1em;
+    border-radius: 0 5px 5px 0;
+    border: 1px solid rgb(0, 0, 0);
+    color: rgb(110, 112, 126);
+    background-color: rgb(255, 255, 255);
+    font-weight: normal;
+    font-size: 0.9em;
+    width: 75%;
+}
+.form-entry > input:hover{
+    border: 1px solid rgb(28, 113, 216);
+}
+
+/*
+    Warning
+*/
+.warning-message{
+    color: rgb(231, 74, 59);
+    display: none;
+}

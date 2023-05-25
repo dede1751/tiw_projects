@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<link rel="stylesheet" type="text/css" href="css/global.css"/>
+	<link rel="stylesheet" type="text/css" href="css/home.css"/>
+	<script src="js/utils.js" charset="utf-8" defer></script>
+	<script src="js/home.js" charset="utf-8" defer></script>
+	<title>Home Page</title>
+</head>
+
+<body>
+	<div class="header-div div-colored">
+		<div class="header-title">You are logged as:</div>
+		<hr>
+		<div class="header-content">
+			<span> User: <b><span id="header_name">Name</span></b><br> </span>
+			<span> ID: <b><span id="header_id">0000</span></b> </span>
+		</div>
+		<a id="logout_button" class="btn btn-medium btn-colored-inverted" href="Logout">Log out</a>
+	</div>
+	
+	<div class="div-title">
+		<h1>Welcome to the home page, <i><span id="title_name">Name</span></i><br></h1>
+	</div>
+	
+	<div class="home-div">
+		<div class="form-div div-colored">
+			<div class="form-title">Add a new Category to the taxonomy!</div>
+			<form class="form-container" method="POST" action="#">
+				<div class="form-entry">
+					<label for="name">Category Name</label>
+					<input type="text" placeholder="Enter a name for the category" name="name" maxlength="45" required>
+				</div>
+				<div class="form-entry">
+					<label for="parentID">Parent</label>
+					<select id="create_dropdown" name="parentID" required></select>
+				</div>
+				<input id="create_button" class="btn btn-large btn-colored-solid" type="button" value="Create"/>
+			</form>
+			<div id="create_warning_msg" class="warning-message">Category not valid!</div>
+		</div>
+		
+		<div id="taxonomy_container" class="div-colored">
+			<div class="tree-title">Here is the full taxonomy tree:
+				<div id="taxonomy_warning_msg" class="warning-message">Copy not valid!</div>
+			</div>
+			<div id="save_div" class="save-div">
+				<input id="save_button" class="btn btn-large btn-save" type="button" value="Save"/>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div id="dialog_box" class="dialog-box">
+		<div class="dialog-container div-colored">
+			<div id="dialog_title" class="dialog-title">Do you confirm the copy of this category?</div>
+			<span>
+				<input id="confirm_button" class="btn btn-large btn-confirm" type="button" value="Confirm"/>
+				<input id="cancel_button" class="btn btn-large btn-cancel" type="button" value="Cancel"/>
+			</span>
+		</div>
+	</div>
+
+</body>
+</html>

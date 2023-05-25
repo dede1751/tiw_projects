@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<link rel="stylesheet" type="text/css" href="css/global.css"/>
+	<script src="js/utils.js" charset="utf-8" defer></script>
+	<script src="js/login.js" charset="utf-8" defer></script>
+	<title>Login page</title>
+</head>
+
+<body>
+	
+	<div class="div-title">
+		<h1>Welcome to our Image Taxonomy website!</h1>
+	</div>
+	
+	<div class="form-div div-colored">
+		<div class="form-title">Insert your email and password to Login</div>
+		<form class="form-container" action="#">
+			<div class="form-entry">
+				<label for="email">Email</label>
+				<input type="email" placeholder="Enter your email" name="email" maxlength="45" required>
+			</div>
+			<div class="form-entry">
+				<label for="password">Password</label>
+				<input type="password" placeholder="Enter your password" name="password" maxlength="45" required>
+			</div>
+			<input id="login_button" class="btn btn-large btn-colored-solid" type="button" value="Login"/>
+		</form>
+		<div id="login_warning_msg" class="warning-message">Email or password not valid!</div>
+	</div>
+
+	<div class="form-div div-colored">
+		<div class="form-title">Insert your information to Sign Up</div>
+		<form class="form-container" action="#">
+			<div class="form-entry">
+				<label for="name">Name</label>
+				<input type="text" placeholder="Enter your name" name="name" maxlength="45" required>
+			</div>
+			<div class="form-entry">
+				<label for="email">Email</label>
+				<input type="email" placeholder="Enter your email" name="email" maxlength="45" required>
+			</div>
+			<div class="form-entry">
+				<label for="password">Password</label>
+				<input type="password" placeholder="Enter your desired password" name="password" maxlength="45" required>
+			</div>
+			<input id="register_button" class="btn btn-large btn-colored-solid" type="button" value="Register"/>
+		</form>
+		<div id="register_warning_msg" class="warning-message">Email or password not valid!</div>
+	</div>
+</body>
+</html>
