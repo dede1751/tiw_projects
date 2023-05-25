@@ -107,9 +107,11 @@ public class CategoryDAO {
 			preparedStatementUpdate.executeUpdate();
 			
 			connection.commit();
-		}catch(SQLException e) {
+		} catch(SQLException e) {
 			connection.rollback();
 			throw new SQLException("DB ACCESS ERROR. Action: " + action);
+		} finally {
+			connection.setAutoCommit(true);
 		}
 	}
 	
@@ -188,6 +190,8 @@ public class CategoryDAO {
 		} catch (SQLException e) {
 			connection.rollback();
 			throw new SQLException("DB ACCESS ERROR. Action: " + action);
+		} finally {
+			connection.setAutoCommit(true);
 		}
 	}
 	
