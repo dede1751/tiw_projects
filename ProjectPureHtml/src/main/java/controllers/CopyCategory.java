@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import dao.CategoryDAO;
 import utils.DBTemplateHttpServlet;
 import utils.PathUtils;
@@ -36,8 +38,8 @@ public class CopyCategory extends DBTemplateHttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// Parameter sanitization
-		String copySrc = request.getParameter("copySrc");
-		String copyTgt = request.getParameter("copyTgt");
+		String copySrc = StringEscapeUtils.escapeJava(request.getParameter("copySrc"));
+		String copyTgt = StringEscapeUtils.escapeJava(request.getParameter("copyTgt"));
 		if (copySrc == null || copyTgt == null) {
 			renderError(request, response, "Copy parameters empty!");
 			return;

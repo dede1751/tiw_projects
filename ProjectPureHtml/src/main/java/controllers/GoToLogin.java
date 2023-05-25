@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import utils.PathUtils;
 import utils.TemplateHttpServlet;
 
@@ -28,9 +30,23 @@ public class GoToLogin extends TemplateHttpServlet {
 
 	/**
 	 * Uses the template engine to render the login.html page
+	 * Handle warning message parameters.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// Convert login warning message query to request attribute.
+		String loginWarning = StringEscapeUtils.escapeJava(request.getParameter("loginWarningMsg"));
+		if ( loginWarning != null ) {
+			request.setAttribute("loginWarningMsg", "Email or Password incorrect!");
+		}
+		
+		// Convert register warning message query to request attribute.
+		String registerWarning = StringEscapeUtils.escapeJava(request.getParameter("registerWarningMsg"));
+		if ( registerWarning != null ) {
+			request.setAttribute("registerWarningMsg", "Chosen email already exists!");
+		}
+		
 		renderPage(request, response, PathUtils.pathToLoginPage);
 	}
 

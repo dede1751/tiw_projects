@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import utils.DBTemplateHttpServlet;
 import utils.PathUtils;
 import dao.CategoryDAO;
@@ -41,8 +43,8 @@ public class CreateCategory extends DBTemplateHttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String name = request.getParameter("name");
-		String parent = request.getParameter("parentID");
+		String name = StringEscapeUtils.escapeJava(request.getParameter("name"));
+		String parent = StringEscapeUtils.escapeJava(request.getParameter("parentID"));
 		int parentID = 0;
 		
 		// Error on empty fields
@@ -76,8 +78,6 @@ public class CreateCategory extends DBTemplateHttpServlet {
 		}
 		
 		// Warning on non-exisiting parent nodes and ones with too many children
-		// The warning message must be saved to the session since a forward would leave us on this servlet,
-		// and a redirect would lose the message.
 		if ( childCount == -1 ) {
 			String warningMsgQuery = "?createWarningMsg=1";
 			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToHomeServlet + warningMsgQuery);

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import beans.User;
 import utils.DBTemplateHttpServlet;
 import utils.PathUtils;
@@ -43,8 +45,8 @@ public class Login extends DBTemplateHttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
+		String email = StringEscapeUtils.escapeJava(request.getParameter("email"));
+		String password = StringEscapeUtils.escapeJava(request.getParameter("password"));
 		
 		// Error on empty fields
 		if(email == null || password == null) {
@@ -52,11 +54,9 @@ public class Login extends DBTemplateHttpServlet {
 			return;
 		}
 		
-		// Warning for names that are too long
+		// Error for names that are too long
 		if (email.length() > 45 || password.length() > 45) {
-			HttpSession session = request.getSession();
-			session.setAttribute("loginWarningMsg", "Login input is too long!");
-			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToLoginPage);
+			renderError(request, response, "Login input is too long!");
 			return;
 		}
 			
@@ -72,8 +72,8 @@ public class Login extends DBTemplateHttpServlet {
 		
 		// Warning if credentials do not match any existing user
 		if(user == null) {
-			request.setAttribute("loginWarningMsg", "Email or password incorrect!");
-			renderPage(request, response, PathUtils.pathToLoginPage);
+			String warningMsgQuery = "?loginWarningMsg";
+			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToLoginServlet + warningMsgQuery);
 			return;
 		}
 		

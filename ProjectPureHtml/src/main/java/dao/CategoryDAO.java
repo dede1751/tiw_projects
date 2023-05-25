@@ -122,12 +122,7 @@ public class CategoryDAO {
 		String action = "Inserting subtree located at root id: " + rootID + " under parent id: " + parentID;
 		
 		// First fetch the subtree containing the node to copy
-		List<Category> subtree;
-		try {
-			subtree = getCategoryTree(rootID);
-		} catch (SQLException e) {
-			throw new SQLException("DB ACCESS ERROR. Action: " + action);
-		}
+		List<Category> subtree = getCategoryTree(rootID);
 				
 		// Relabel id and parentID for the subtree obtained (inefficient, but it's ok)
 		for (int i = 0; i < subtree.size(); ++i) {
@@ -150,10 +145,6 @@ public class CategoryDAO {
 				}
 			}
 			parent.setId(newID);
-		}
-		
-		for (Category cat: subtree) {
-			System.err.println("Category " + cat.getName() + " ID: " + cat.getId() + " PARENT ID: " + cat.getParentID());
 		}
 		
 		String query = "INSERT INTO category (id,name,parentID, childCount) VALUES(?,?,?,?)";

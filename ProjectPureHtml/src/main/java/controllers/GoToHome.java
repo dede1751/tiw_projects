@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import beans.Category;
 import dao.CategoryDAO;
 import utils.DBTemplateHttpServlet;
@@ -38,7 +40,7 @@ public class GoToHome extends DBTemplateHttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// Convert create warning message query to request attribute.
-		String warning = request.getParameter("createWarningMsg");
+		String warning = StringEscapeUtils.escapeJava(request.getParameter("createWarningMsg"));
 		if ( warning != null ) {
 			request.setAttribute("createWarningMsg", CreateCategory.getWarningMessage(warning));
 		}
@@ -54,7 +56,7 @@ public class GoToHome extends DBTemplateHttpServlet {
 		}
 		
 		// Handle first step of copy
-		String copyRootID = request.getParameter("copyRootID");
+		String copyRootID = StringEscapeUtils.escapeJava(request.getParameter("copyRootID"));
 		if (copyRootID != null) {
 			int rootID;
 			// Error on non-numeric values for parent id
@@ -90,7 +92,7 @@ public class GoToHome extends DBTemplateHttpServlet {
 		}
 		
 		// Handle final step of copy (same as copyRootID, without saving anything to the request)
-		String insertionID = request.getParameter("insertionID");
+		String insertionID = StringEscapeUtils.escapeJava(request.getParameter("insertionID"));
 		if (insertionID != null) {
 			int insertID;
 			

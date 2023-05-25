@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import utils.DBTemplateHttpServlet;
 import utils.PathUtils;
 import dao.UserDAO;
@@ -44,9 +46,9 @@ public class Register extends DBTemplateHttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String name = request.getParameter("name");
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
+		String name = StringEscapeUtils.escapeJava(request.getParameter("name"));
+		String email = StringEscapeUtils.escapeJava(request.getParameter("email"));
+		String password = StringEscapeUtils.escapeJava(request.getParameter("password"));
 		
 		// Error on empty fields
 		if(name == null || email == null || password == null) {
@@ -54,11 +56,9 @@ public class Register extends DBTemplateHttpServlet {
 			return;
 		}
 		
-		// Warning for values that are too long
+		// Error for values that are too long
 		if (name.length() > 45 || email.length() > 45 || password.length() > 45) {
-			HttpSession session = request.getSession();
-			session.setAttribute("registerWarningMsg", "Register input is too long!");
-			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToLoginPage);
+			renderError(request, response, "Register input is too long!");
 			return;
 		}
 		
@@ -72,8 +72,8 @@ public class Register extends DBTemplateHttpServlet {
 			return;	
 		}
 		if (user != null) {
-			request.setAttribute("registerWarningMsg", "Chosen email already exists!");
-			renderPage(request, response, PathUtils.pathToLoginPage);
+			String warningMsgQuery = "?registerWarningMsg";
+			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToLoginServlet + warningMsgQuery);
 			return;
 		}
 		
@@ -92,6 +92,7 @@ public class Register extends DBTemplateHttpServlet {
 			renderError(request, response, e.getMessage());
 			return;	
 		}
+		
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);
 		response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToHomeServlet);
