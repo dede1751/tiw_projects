@@ -24,7 +24,7 @@ public class CategoryDAO {
 	}
 	
 	/**
-	 * Get the number of children for a given parent node
+	 * Get the number of children for a given parent node, if absent return -1
 	 */
 	public int getChildCount(int parentID) throws SQLException {
 		
@@ -47,7 +47,6 @@ public class CategoryDAO {
 	
 	/**
 	 * Fetch a linearized representation of the category tree.
-	 * Since copies do not copy the entire subtree, this search must be recursive.
 	 */
 	public List<Category> getCategoryTree(int rootID) throws SQLException {
 		

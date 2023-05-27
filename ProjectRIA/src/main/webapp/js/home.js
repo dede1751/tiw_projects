@@ -82,7 +82,7 @@
 			
 			// Save button sends copy data to the DB
 			let save_button = document.getElementById("save_button");
-			let save_div = document.getElementById("save_div");
+			this.save_div = document.getElementById("save_div");
 			save_button.addEventListener("click", _ => {
 				// Assemble request contents
 				let copyForm = new FormData();
@@ -110,7 +110,7 @@
 				})
 				
 				// Remove save button
-				save_div.style.display = "none";
+				this.save_div.style.display = "none";
 			})
 			
 			// Confirm button dispatches copy and pulls up save button
@@ -164,12 +164,16 @@
 		 * Update the DOM to display the currently saved tree.
 		 */
 		update() {
+			// Reset Copy functionality
+			this.copySrcID = null;
+			this.copyTgtID = null;
 			this.tempNodes = new Array();
-			let create_dropdown = document.getElementById("create_dropdown");
+			this.save_div.style.display = "none";
 			
 			// Remove old taxonomy and form entries
 			document.querySelectorAll(".node, option").forEach(e => e.remove());
 			
+			let create_dropdown = document.getElementById("create_dropdown");
 			this.tree.forEach(category => {
 				// Add category to create category form dropdown (if it doesn't have too many children)
 				let option = null;

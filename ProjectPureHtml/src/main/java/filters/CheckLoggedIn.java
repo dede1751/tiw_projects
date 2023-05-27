@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -15,11 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
-
 import utils.PathUtils;
-import utils.TemplateHandler;
 
 /**
  * Filter requests that require the user to be logged in
@@ -28,8 +22,7 @@ import utils.TemplateHandler;
 public class CheckLoggedIn extends HttpFilter implements Filter {
        
     private static final long serialVersionUID = 1L;
-	private TemplateEngine templateEngine;
-
+    
 	/**
      * @see HttpFilter#HttpFilter()
      */
@@ -63,22 +56,7 @@ public class CheckLoggedIn extends HttpFilter implements Filter {
 			}
 		} 
 		
-		req.setAttribute("errorMsg", "You need to be logged in to access this page!");
-		renderPage(req, res, PathUtils.pathToErrorPage);
-	}
-
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
-	public void init(FilterConfig fConfig) throws ServletException {
-		ServletContext servletContext = fConfig.getServletContext();
-		this.templateEngine = TemplateHandler.getEngine(servletContext, ".html");
+		res.sendRedirect(request.getServletContext().getContextPath() + PathUtils.pathToLoginServlet);
 	}
 	
-	public void renderPage(HttpServletRequest request, HttpServletResponse response, String path) throws ServletException, IOException{
-		ServletContext servletContext = request.getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		templateEngine.process(path, ctx, response.getWriter());
-	}
-
 }
