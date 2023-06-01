@@ -3,6 +3,8 @@
 Aim of the project is to build two versions of the same web application. The first one delivers pure HTML content, handling
 all the logic server-side, while the second one uses Javascript client-side to deliver all functionality in a single page.
 
+This project has been awarded the maximum grade of **30L**.
+
 ## Photos
 
 * Login Screen
