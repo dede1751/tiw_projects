@@ -46,7 +46,7 @@ public class CategoryDAO {
 	}
 	
 	/**
-	 * Fetch a linearized representation of the category tree.
+	 * Fetch a linearised representation of the category tree.
 	 */
 	public List<Category> getCategoryTree(int rootID) throws SQLException {
 		

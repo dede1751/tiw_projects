@@ -55,10 +55,10 @@ public class RenameCategory extends DBHttpServlet {
 			return;
 		}
 		
-		// Error for names that are too long
-		if (newName.length() > 45) {
+		// Error for names that are too long/short
+		if (newName.length() > 45 || newName.length() == 0) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);		
-			response.getWriter().println("New name is too long!");
+			response.getWriter().println("New name should be between 1 and 45 characters long!");
 			return;
 		}
 		

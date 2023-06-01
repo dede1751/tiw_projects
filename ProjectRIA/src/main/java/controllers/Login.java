@@ -88,7 +88,7 @@ public class Login extends DBHttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);
 		
-		// Serialize and send user information
+		// Serialise and send user information
 		String packetUser = new Gson().toJson(new User.PacketUser(user.getId(), user.getName()));
 		response.setStatus(HttpServletResponse.SC_OK);	
 		response.setContentType("application/json");

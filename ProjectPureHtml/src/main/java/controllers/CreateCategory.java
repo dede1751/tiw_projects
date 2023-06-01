@@ -53,8 +53,8 @@ public class CreateCategory extends DBTemplateHttpServlet {
 			return;
 		}
 		
-		// Warning for names that are too long
-		if (name.length() > 45) {
+		// Warning for names that are too long/short
+		if (name.length() > 45 || name.length() == 0) {
 			String warningMsgQuery = "?createWarningMsg=0";
 			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToHomeServlet + warningMsgQuery);
 			return;
@@ -77,7 +77,7 @@ public class CreateCategory extends DBTemplateHttpServlet {
 			return;	
 		}
 		
-		// Warning on non-exisiting parent nodes and ones with too many children
+		// Warning on non-existing parent nodes and ones with too many children
 		if ( childCount == -1 ) {
 			String warningMsgQuery = "?createWarningMsg=1";
 			response.sendRedirect(getServletContext().getContextPath() + PathUtils.pathToHomeServlet + warningMsgQuery);
@@ -103,7 +103,7 @@ public class CreateCategory extends DBTemplateHttpServlet {
 	/// Convert integer warning message code to actual message (slims down the url)
 	public static String getWarningMessage(String id) {
 		String message = switch ( id ) {
-			case "0" -> "Please choose a shorter name!";
+			case "0" -> "Name should be between 1 and 45 characters long!";
 			case "1" -> "Chosen parent ID does not exist!";
 			case "2" -> "Chosen parent has too many children!";
 			default -> "";

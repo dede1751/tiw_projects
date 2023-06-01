@@ -99,10 +99,12 @@
 			                case 400: // bad request  (fallthrough)
 			                case 401: // unauthorized       |
 			                case 500: // server error       v
+			                    this.update(); //Reset view
 			                    this.warning_div.textContent = request.responseText;
 			                    this.warning_div.style.display = "block"; // Show error div
 			                    break;
 			                default: //Error
+			                    this.update(); //Reset view
 			                    this.warning_div.textContent = "Request reported status " + request.status;
 			                    this.warning_div.style.display = "block"; // Show error div
 			    		}
@@ -121,16 +123,20 @@
 				this.tempNodes = new Array();
 				
 				// Execute new copy
-				this.execute_copy();
+				this.executeCopy();
 				
 				// Update ui
 				dialog_box.style.display = "none";
 				save_div.style.display = "block";
 			})
 			
-			// Cancel button always just hides the dialog box
+			// Cancel button hides dialog box and resets to old src/tgt values if present
 			let cancel_button = document.getElementById("cancel_button");
-			cancel_button.addEventListener("click", _ => dialog_box.style.display = "none" );
+			cancel_button.addEventListener("click", _ => {
+				dialog_box.style.display = "none";
+				this.copySrcID = this.tempSrcID;
+				this.copyTgtID = this.tempTgtID;
+			});
 		}
 		
 		/*
@@ -165,6 +171,8 @@
 		 */
 		update() {
 			// Reset Copy functionality
+			this.tempSrcID = null;
+			this.tempTgtID = null;
 			this.copySrcID = null;
 			this.copyTgtID = null;
 			this.tempNodes = new Array();
@@ -211,7 +219,8 @@
 					// RENAME FUNCTIONALITY
 					// Setup on click listener for renaming categories
 					nodeName.addEventListener("click", _ => {
-						nodeContent.removeChild(nodeName);
+						// Hide old name
+						nodeName.style.display = "none";
 						
 						// Create input box with the old name
 						let nodeInput = document.createElement("input");
@@ -226,9 +235,8 @@
 						nodeInput.addEventListener("focusout", _ => {
 							let newName = nodeInput.value;
 							
-							nodeName.textContent = newName;
+							nodeName.style.display = "inline";
 							nodeContent.removeChild(nodeInput);
-							nodeContent.appendChild(nodeName);
 							
 							// Assemble request contents
 							let renameForm = new FormData();
@@ -240,6 +248,7 @@
 								if (request.readyState == XMLHttpRequest.DONE) {
 									switch(request.status){
 						                case 200: //Okay, continue (also rename in create category form)
+						            		nodeName.textContent = newName;
 						                	if (option != null) {
 												option.textContent = newName;
 											}
@@ -260,41 +269,45 @@
 						})
 					});
 					
-					// DRAG&DROP FUNCTIONALITY
+					// DRAG FUNCTIONALITY
 					nodeContent.draggable = "true";
 					nodeContent.addEventListener("dragstart", e => {
 						e.dataTransfer.setData("copySrcID", category.id.toString()); // keep the category's id in the event
 						e.dataTransfer.dropEffect = "copy";
 					})
-					nodeContent.addEventListener("dragover", e => e.preventDefault()); // override this or drop won't work
-					
-					// On drop, save copy/target ids and display dialog box.
-					nodeContent.addEventListener("drop", e => {
-						let src = e.dataTransfer.getData("copySrcID");
-						let tgt = category.id.toString();
-						
-						// Don't copy to own subtree
-						if (tgt.startsWith(src)) {
-							this.warning_div.textContent = "A category cannot be copied to its own subtree!";
-						    this.warning_div.style.display = "block";
-							return;
-						}
-						
-						// Don't copy when the target has too many children
-						if (category.childCount >= 9) {
-							this.warning_div.textContent = "Copying to a category with too many children!";
-						    this.warning_div.style.display = "block";
-							return;
-						}
-						
-						this.warning_div.style.display = "none"; // reset warning div
-						this.copySrcID = src;
-						this.copyTgtID = tgt;
-						
-						this.dialog_title.textContent = "Copying categories: " + this.copySrcID + " -> " + this.copyTgtID;
-						this.dialog_box.style.display = "block";
-					})
 				}
+				
+				// DROP FUNCTIONALITY
+				nodeContent.addEventListener("dragover", e => e.preventDefault()); // override this or drop won't work
+				
+				// On drop, save copy/target ids and display dialog box.
+				nodeContent.addEventListener("drop", e => {
+					let src = e.dataTransfer.getData("copySrcID");
+					let tgt = category.id.toString();
+					
+					// Don't copy to own subtree
+					if (tgt.startsWith(src)) {
+						this.warning_div.textContent = "A category cannot be copied to its own subtree!";
+					    this.warning_div.style.display = "block";
+						return;
+					}
+					
+					// Don't copy when the target has too many children
+					if (category.childCount >= 9) {
+						this.warning_div.textContent = "Copying to a category with too many children!";
+					    this.warning_div.style.display = "block";
+						return;
+					}
+					
+					this.warning_div.style.display = "none"; // reset warning div
+					this.tempSrcID = this.copySrcID;
+					this.tempTgtID = this.copyTgtID;
+					this.copySrcID = src;
+					this.copyTgtID = tgt;
+					
+					this.dialog_title.textContent = "Copying categories: " + this.copySrcID + " -> " + this.copyTgtID;
+					this.dialog_box.style.display = "block";
+				})
 				
 				node.appendChild(nodeContent);
 				this.taxonomy_container.appendChild(node);
@@ -305,7 +318,7 @@
 		 * Execute a local copy of the selected subtree
 		 * The copied subtree will not be modifiable until it is saved to the server.
 		 */
-		execute_copy(){
+		executeCopy(){
 			// Deep copy the subtree we are trying to copy
 			let subtree = JSON.parse(JSON.stringify(
 				this.tree.filter(category => category.id.toString().startsWith(this.copySrcID))
@@ -342,11 +355,15 @@
 			// Find the node before which we should insert the subtree
 			let parentIndex = this.tree.indexOf(root);
 			let nextCategory = null;
-			for (let i = parentIndex + 1; i < this.tree.length; ++i) {
-				nextCategory = this.tree[i];
-				if (!nextCategory.id.toString().startsWith(this.copyTgtID)) {
-					break;
-				}
+			
+			if (parentIndex != 0) { //nextCategory remains null for root copies
+				for (let i = parentIndex + 1; i < this.tree.length; ++i) {
+					nextCategory = this.tree[i];
+	
+					if (!nextCategory.id.toString().startsWith(this.copyTgtID)) {
+						break;
+					}
+				}								
 			}
 			
 			// Add the nodes for the new subtree (we don't bother updating the actual taxonomy tree)
@@ -366,7 +383,6 @@
 					nodeContent.className += " even";
 				}
 
-				// Split text content to insert renaming box later
 				let nodeID = document.createElement("span");
 				let nodeName = document.createElement("span");
 				nodeID.textContent = category.id + " - ";

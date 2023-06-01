@@ -56,10 +56,10 @@ public class CreateCategory extends DBHttpServlet {
 			return;
 		}
 		
-		// Error for names that are too long
-		if (name.length() > 45) {
+		// Error for names that are too long/short
+		if (name.length() > 45 || name.length() == 0) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);		
-			response.getWriter().println("Name is too long!");
+			response.getWriter().println("Name should be between 1 and 45 characters long!");
 			return;
 		}
 		
